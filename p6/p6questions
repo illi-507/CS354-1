@@ -1,0 +1,22 @@
+Name: Kenny Gao
+Section: 002
+Partner's Name: Bingxin Zhang
+Partner's Section: 002
+
+Question - demo.c shows us that if a program is stuck in an infinite loop, it cannot go forward. Our program for a simple alarm (intdate.c) also has an infinite while loop. Yet, we see the print statements like below when we execute it -
+
+% intdate
+Date will be printed every 3 seconds.
+Enter ^C to end the program:
+current time is Tue Sep  4 13:15:21 2015
+current time is Tue Sep  4 13:15:24 2015
+current time is Tue Sep  4 13:15:27 2015
+^C
+
+How does the main function of intdate.c come out of the infinite while loop to print these statements?
+We used Sigaction to change how the computer handles a SIGALRM signal. So now, when the computer detacts a SIG_ALRM signal,
+our handler handles the alarm. We then set up Alarm(3) which sends a SIG_ALRM signal in 3 seconds. 
+When the computer recieves this signal, it executes our signal handler
+function which prints out the time and sets a new Alarm(3), sending another SIG_ALRM signal in 3 seconds. 
+Then the execution returns to the infinite while loop. So it repeats jumping from the main to the handler and back to main.
+Basically execution switches between the user's process(main) and the exception handler every 3 seconds.

@@ -1,0 +1,193 @@
+Name (and partner's name): Kenny Gao
+Section (and partner's section): Section 2
+
+Assignment 4 questions.
+Do not remove the questions from this file.
+Please indent your answers.
+
+Sample command line:
+/p/course/cs354-common/public/cache/pin -t /p/course/cs354-common/public/cache/source/tools/Memory/obj-ia32/allcache.so -is 16384 -ia 1 -ib 64 -ds 16384 -da 1 -db 64 -- yourexe
+
+Replace "yourexe" with the name of your executable.
+
+For ALL cache simulations, use a capacity of 16384 bytes for both 
+the I-cache and the D-cache.
+
+cache1D
+-------
+
+1.1 What do you get from running pin with a block size of 4 bytes? (Pasting the output here is fine!)
+Instruction cache misses:       696
+Instruction cache references:   695299
+Data cache misses:              107219
+Data cache references:          646406
+
+1.2 Calculate the hit ratio for the D-cache with a block size of 4 bytes?
+Data cache hits = Data cache References - Data cache misses
+This is 646406 - 107219 = 539187 hits.
+The hit ratio is Data cache hits / Data cache references, which
+equals 637874/646471 * 100% = 83.41%.
+
+Instruction cache hits = Instruction cache References - Instruction cache misses 
+This is 695229 - 696 = 694533 hits.
+The hit ratio is Instruction cache hits / Instruction cache references, which 
+equals 646406/695229 * 100% = 99.89%.
+
+Summary:
+Instruction cache hit ratio: 99.89%
+Data cache hit ratio: 83.41%
+
+2.1 What do you get from running pin with a block size of 32 bytes? (Pasting the output here is fine!)
+Instruction cache misses:       698
+Instruction cache references:   695299
+Data cache misses:              15829
+Data cache references:          646406
+
+
+2.2 Calculate the hit ratio for the D-cache with a block size of 32 bytes?
+Data cache hits = Data cache References - Data cache misses
+This is 646471 - 15829 = 630642 hits.
+The hit ratio is Data cache hits / Data cache references, which
+equals 630642/646471 * 100% = 97.55%.
+
+Instruction cache hits = Instruction cache References - Instruction cache misses
+This is 646406 - 698 = 645708 hits.
+The hit ratio is Instruction cache hits / Instruction cache references, which
+equals 645708/646406 * 100% = 99.89%.
+
+Summary:
+Instruction cache hit ratio: 99.89%
+Data cache hit ratio: 97.55%
+
+3.1 What do you get from running pin with a block size of 64 bytes? (Pasting the output here is fine!)
+Instruction cache misses:       698
+Instruction cache references:   695299
+Data cache misses:              8769
+Data cache references:          646406
+
+
+3.2 Calculate the hit ratio for the D-cache with a block size of 64 bytes?
+Data cache hits = Data cache References - Data cache misses
+This is 646406 - 8769 = 637637 hits.
+The hit ratio is Data cache hits / Data cache references, which
+equals 637637/646406 * 100% = 98.64%.
+
+Instruction cache hits = Instruction cache References - Instruction cache misses
+This is 695299 - 698 = 694601 hits.
+The hit ratio is Instruction cache hits / Instruction cache references, which
+equals 694601/695299 * 100% = 99.89%.
+
+Summary:
+Instruction cache hit ratio: 99.89%
+Data cache hit ratio: 98.64%
+
+4. (to be answered without running pin)
+   For this question, assume that the 100,000 elements long integer array that you allocated starts at address 0x50000000 in memory,
+   the size of an integer is 4 bytes  and the D-cache is initially empty. 
+   As you READ the integers in the array one-by-one, starting at index 0, 
+   how many D-cache misses will you see for reading the first 40 integers when the cache block size is:
+   a) 4 bytes:
+	I'd see 40 misses. Since the D-cache is a direct mapped cache with 4096 sets and a capacity of 16KB, we have 2 bits for the
+        block offset, and 12 bits for the set index, along with 18 tag bits. All that matters is the address adds 4 for each
+        integer. Thus this yields 0x50000000, 0x50000004, 0x50000008 ... 0x50000028. For each of these indexes, the block offset
+        remains the same, but each iteration yields a new set, and since all those sets are initially empty, this yields 40
+        misses for 40 different sets.
+   b) 32 bytes:
+        I'd see 5 misses. I'll explain. We now have 5 bits for the block offset, 9 bits for the set index, 18 bits for the tag, and 512
+        sets. At the first array position, we look at set 0 and see that it is empty. That's a cache miss. We then put that block into
+        the cache. We then increase the address by 4 and try again. The set is the same, the tag is the same and it's valid, so it's a 
+        cache hit. This keeps on going until the setindex bit changes. That only happens after we pass 8 integers, so for every
+        8 integers, we get a cache miss. This implies there will be 5 cache misses in total.
+
+   c) 64 bytes:
+	I'd see 3 misses. It's basically the same reasoning as above, except there are now 6 bits for the block offset.
+        That means 16 integers per miss. Ceiling of 40/16 is 3, so we see 3 cache misses.
+
+5. Based on simulations you ran for questions 1, 2 and 3, which block size is best for the D-cache?  Why? In what way does the block 
+   size affect the hit ratio for this program?
+        The 64 bytes because not only does it contain the most integers associated with the arrays, but it also has the least amount
+	of cache misses. The block size affects the amount of integers within the block. Since a block size of 32 holds 8 times the
+        amount of integers as a block size of 4, there are 8 times more hits in a block size of 4 than a block size of 32. Similarily,
+        there are 16 times more misses in a block size of 4 than a block size of 64. Thus the bigger block size for this
+        program increases the hit ratio.
+
+
+
+
+cache2Drows
+-----------
+
+6.1 What do you get from running pin with a block size of 64 bytes? (Pasting the output here is fine!)
+Instruction cache misses:       698
+Instruction cache references:   16616313
+Data cache misses:              118160
+Data cache references:          12061403
+
+
+6.2 Calculate the hit ratio for the D-cache with a block size of 64 bytes?
+Data cache hits = Data cache References - Data cache misses
+This is 12061403 - 118160 = 11943243 hits.
+The hit ratio is Data cache hits / Data cache references, which
+equals 11943243/12061403 * 100% = 99.02%.
+
+Instruction cache hits = Instruction cache References - Instruction cache misses
+This is 16616313 - 698 = 16615615 hits.
+The hit ratio is Instruction cache hits / Instruction cache references, which
+equals 16615615/16616313 * 100% = 99.996%.
+
+Summary:
+Instruction cache hit ratio: 99.996%
+Data cache hit ratio: 99.02%
+
+
+
+
+cache2Dcols
+-----------
+
+7.1 What do you get from running pin with a block size of 64 bytes? (Pasting the output here is fine!)
+Instruction cache misses:       690
+Instruction cache references:   16598813
+Data cache misses:              1507393
+Data cache references:          12048903
+
+
+
+7.2 Calculate the hit ratio for the D-cache with a block size of 64 bytes?
+Data cache hits = Data cache References - Data cache misses
+This is 12048903 - 1507393 = 10541510 hits.
+The hit ratio is Data cache hits / Data cache references, which
+equals 12048903/10541510 * 100% = 87.49.
+
+Instruction cache hits = Instruction cache References - Instruction cache misses
+This is 16598813 - 690 = 16598123 hits.
+The hit ratio is Instruction cache hits / Instruction cache references, which
+equals 16598123/16598813 * 100% = 99.996%.
+
+Summary:
+Instruction cache hit ratio: 99.996%
+Data cache hit ratio: 87.49%
+
+
+
+Comparison of cache2Drows and cache2Dcols
+-----------------------------------------
+8. (to be answered without running pin) 
+    For this question, assume that the 2-D integer array you allocated starts at address 0x40000000 in memory,
+    the size of an integer is 4 bytes, D-cache block size is 64 bytes and the D-cache is initially empty.
+    As you READ the integers in the 2-D array one-by-one, starting with element array[0,0],
+    how many D-cache misses will you see for reading the first 10 integers in case of:
+    a) cache2Drows:
+	1 miss, because there are 16 integers in a block. Since each integer in a row maps to the same block, the first
+        miss brings all the integers into the cache line; so each of the 9 next calls lead to hits.
+    b) cache2Dcols:
+        10 misses. Each integer out of that 10 are in different blocks because the integers in the blocks
+        are organized in rows. There are 10 blocks that each need to be put in a separate set, so that's 10
+        misses.
+
+9. Compare the performance (hit ratios) of the D-cache for the 2 programs based on simulations of questions 6 and 7.
+    Explain any difference/ lack of difference that you observe. Your answer should be in the form of "There is a difference/no difference BECAUSE ____".
+    There is a difference because of the way the blocks are organized in the cache. They are organized based upon rows,
+    which is why the cache2Drows has better spatial locality than cache2Dcols. This means when the loop iterates
+    in rows, the block gets placed in the cache and works for the next 15 integers. However, in cols, when the loop
+    iterates, the block only works once. This causes the difference in cache misses.

@@ -1,0 +1,38 @@
+Name/cs login/section: Kenny Gao/kenny/section 2
+Partner's Name/cs login/section: Bingxin Zhang/bingxin/Section 2
+
+
+Q1
+Write the commands you used for performing steps 1, 6 and 11:
+ 1) gcc -m32 -Wall -std=gnu99 -o prog1.i -E prog1.c
+ 6) gcc -m32 -Wall -std=gnu99 -o calc.o -c calc.s
+11) gcc -m32 -Wall -std=gnu99 -o prog2 prog2.o calc.o
+
+
+Q2
+Necessary steps (among 1~11) to ensure prog2's correctness after changing
+calc.c: (Numbers only, not the commands.)
+
+4,5,6,11
+
+Q3
+Necessary steps (among 1~11) after changing calc.h: (Numbers only.)
+All of them.
+1,2,3,4,5,6,7,8,9,10,11
+
+Q4
+Copy the line you added to prog2.c here:
+
+extern int num_err;
+
+Q5
+Yes/No: 
+If yes, copy the lines added here:
+
+If no, explain here:
+    No, not without changing how num_calc is defined in calc.c.
+    num_calc is a static so it is only accessible in the calc.c file,
+    and so outside files like prog1 and prog2 cannot access that variable
+    unless we change static int num_calc to int num_calc and use extern int
+    num_calc in prog1 and prog2.
+
